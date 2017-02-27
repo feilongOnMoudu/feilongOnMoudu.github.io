@@ -1,0 +1,673 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="iOS证书指导在 iOS App 中加入消息推送功能时，必须要在 Apple 的开发者中心网站上申请推送证书，每一个 App 需要申请两个证书，一个在开发测试环境下使用，另一个用于上线到 AppStore 后的生产环境。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Push_setting">
+<meta property="og:url" content="http://yoursite.com/2017/02/27/Push-setting/index.html">
+<meta property="og:site_name" content="宋飞龙的博客">
+<meta property="og:description" content="iOS证书指导在 iOS App 中加入消息推送功能时，必须要在 Apple 的开发者中心网站上申请推送证书，每一个 App 需要申请两个证书，一个在开发测试环境下使用，另一个用于上线到 AppStore 后的生产环境。">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_member_center.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_cert_select.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_create_appid.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_select_push.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_push_configurable.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_push_done.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_push_choose_appid.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_edit_push_mode.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_done_push_mode.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_select_csr.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_open_keychain.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_create_ca.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_generate_cert.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_open_cer.png">
+<meta property="og:image" content="http://push.baidu.com/static/md/cert/adx_save_p12.png">
+<meta property="og:updated_time" content="2017-02-27T08:22:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Push_setting">
+<meta name="twitter:description" content="iOS证书指导在 iOS App 中加入消息推送功能时，必须要在 Apple 的开发者中心网站上申请推送证书，每一个 App 需要申请两个证书，一个在开发测试环境下使用，另一个用于上线到 AppStore 后的生产环境。">
+<meta name="twitter:image" content="http://push.baidu.com/static/md/cert/adx_member_center.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/27/Push-setting/"/>
+
+
+
+
+
+  <title> Push_setting | 宋飞龙的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">宋飞龙的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/27/Push-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="宋飞龙">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://image.shutterstock.com/display_pic_with_logo/2152814/511127908/stock-photo-sexy-closeup-portrait-of-handsome-topless-male-model-with-beautiful-eyes-on-the-beach-black-and-511127908.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="宋飞龙的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Push_setting
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-27T16:13:51+08:00">
+                2017-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="iOS证书指导"><a href="#iOS证书指导" class="headerlink" title="iOS证书指导"></a>iOS证书指导</h1><p>在 iOS App 中加入消息推送功能时，必须要在 Apple 的开发者中心网站上申请推送证书，每一个 App 需要申请两个证书，一个在开发测试环境下使用，另一个用于上线到 AppStore 后的生产环境。<br><a id="more"></a></p>
+<h2 id="1-为你的-App-创建-App-ID"><a href="#1-为你的-App-创建-App-ID" class="headerlink" title="1. 为你的 App 创建 App ID"></a>1. 为你的 App 创建 App ID</h2><p>iOS 中每个 App 都需要对应一个 App ID，同一个公司可能会使用类似于 com.example.* 这样通用的 App ID，但是如果要在 App 中加入消息推送功能，那么是不能使用通用 ID 的，需要为之单独创建一个。</p>
+<p>首先登陆 iOS Dev Center ，然后进入 Member Center，然后选择 Certificates，Identifiers &amp; profiles，如下图：<br><img src="http://push.baidu.com/static/md/cert/adx_member_center.png" alt="(1)"><br>然后点击下图红框中的任意条目，进入证书界面，如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_cert_select.png" alt="(2)"><br>在进入证书界面后，在左边的Identifiers选择中选定App IDs，点右上角加号创建Appid，如下图：<br><img src="http://push.baidu.com/static/md/cert/adx_create_appid.png" alt="(3)"><br>在创建 App ID 的过程中，需要勾选 Push 服务，如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_select_push.png" alt="(4)"><br>进入提交页面，push服务处于configurable状态，如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_push_configurable.png" alt="(5)"><br>点击submit后到确认页面，如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_push_done.png" alt="(6)"><br>点击done后到初始页面，然后再次选择自己创建的appid，如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_push_choose_appid.png" alt="(7)"><br>在下图中选择edit按钮，配置推送的环境，如图:<br><img src="http://push.baidu.com/static/md/cert/adx_edit_push_mode.png" alt="(8)"><br>然后配置好对应的推送环境，个人版和企业版的开发环境都是选择创建Development SSL Certificate类型的。个人版和企业版的发布环境。发布环境分以下三种：1. in-house必须是企业开发账户（企业内）（299美金） 2.ad-hoc个人账户或公司Company账户（99美金），但只用于内部测试（总共100个设备）.3.上线Appstore只能是个人账户或公司Company账户（99美金））如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_done_push_mode.png" alt="(9)"><br>如果你是为已有的 App 增加消息推送功能，那么打开原有的 App ID，开启 Push Notification 选项即可。流程跟上面的一样。</p>
+<h2 id="2-创建及下载证书"><a href="#2-创建及下载证书" class="headerlink" title="2. 创建及下载证书"></a>2. 创建及下载证书</h2><p>点击 Create Certificate按钮后会出现“About Creating a Certificate Signing Request (CSR)”，如下图：<br><img src="http://push.baidu.com/static/md/cert/adx_select_csr.png" alt="(10)"><br>到了这里，需要停下制作 CSR 文件，制作过程比较简单，下面是制作的过程。打开 Mac 系统软件’钥匙串访问’，选择 ‘证书助理’ 及 ‘从证书颁发机构请求证书’，制作 CSR 文件，如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_open_keychain.png" alt="(11)"><br><img src="http://push.baidu.com/static/md/cert/adx_create_ca.png" alt="(11_1)"><br>生成证书后，返回到 “About Creating a Certificate Signing Request (CSR)” 的界面，点击 continue，然后在 “Choose File” 选择生成的CSR文件，最后点击 Generate，生成证书。如下图:<br><img src="http://push.baidu.com/static/md/cert/adx_generate_cert.png" alt="(12)"><br>在证书制作已经完成。下载并双击用“钥匙串访问” 程序打开后，在左边一栏，上面选择登录，下面选择证书，然后选择刚刚打开的证书，切记不要展开它，直接右击导出p12，如下图：<br><img src="http://push.baidu.com/static/md/cert/adx_open_cer.png" alt="(13)"><br>将文件保存为 .p12 格式，输入密码，如图所示：<br><img src="http://push.baidu.com/static/md/cert/adx_save_p12.png" alt="(14)"><br>最后进入终端，到证书目录下，运行以下命令将p12文件转换为pem证书文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">进入当前证书所在的目录下</div><div class="line">openssl pkcs12 -in MyApnsCert.p12 -out MyApnsCert.pem -nodes</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/27/static-framework-setting/" rel="next" title="static_framework_setting">
+                <i class="fa fa-chevron-left"></i> static_framework_setting
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/27/CocoaPods-常见问题/" rel="prev" title="CocoaPods 常见问题">
+                CocoaPods 常见问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://image.shutterstock.com/display_pic_with_logo/2152814/511127908/stock-photo-sexy-closeup-portrait-of-handsome-topless-male-model-with-beautiful-eyes-on-the-beach-black-and-511127908.jpg"
+               alt="宋飞龙" />
+          <p class="site-author-name" itemprop="name">宋飞龙</p>
+           
+              <p class="site-description motion-element" itemprop="description">就是看看什么样子</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS证书指导"><span class="nav-number">1.</span> <span class="nav-text">iOS证书指导</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-为你的-App-创建-App-ID"><span class="nav-number">1.1.</span> <span class="nav-text">1. 为你的 App 创建 App ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-创建及下载证书"><span class="nav-number">1.2.</span> <span class="nav-text">2. 创建及下载证书</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">宋飞龙</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
